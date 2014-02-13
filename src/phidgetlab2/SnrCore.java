@@ -16,7 +16,9 @@ import com.phidgets.event.*;
 public class SnrCore extends PhiCore{
  
     int snrIndex, snrValue;
- 
+	
+	// must define all sensor port number
+	// whenever sensors are attached
     static int SNR_300_ROTATOR = 0;
     static int SNR_IR_DISTANCE = 1;
     
@@ -28,6 +30,7 @@ public class SnrCore extends PhiCore{
     static int SENSITIVE_LEVEL_4 = 250;
     static int SENSITIVE_LEVEL_5 = 1;
     
+	// all sensor object goes here
     Snr300Rotator ObjSnr300Rotator;
     SnrIrDistance ObjSnrIrDistance;
     
@@ -39,6 +42,8 @@ public class SnrCore extends PhiCore{
      */
     public void setSensorSensitivity(int Snr, int level) throws PhidgetException {    
         
+		// this is where any sensor change any sensitivity of any other sensor
+		// depends what object is using this call
         ObjPhiKit.setSensorChangeTrigger(Snr,level);
     }
 
@@ -48,6 +53,8 @@ public class SnrCore extends PhiCore{
      */
     public void getChangedSensors(){
         
+		// sensor change even lister
+		// from phidget API
         ObjPhiKit.addSensorChangeListener(new SensorChangeListener(){
 
             @Override
@@ -98,8 +105,9 @@ public class SnrCore extends PhiCore{
     /**
      *
      */
-    public void getValue(){
-        
+    public int getValue(){
+		
+		return snrValue;
     }
     
     /**
