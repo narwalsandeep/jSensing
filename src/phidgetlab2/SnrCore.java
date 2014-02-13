@@ -85,13 +85,13 @@ public class SnrCore extends PhiCore{
      */
     public void initializeSensor(int snr) {
         
-        if(snr == SNR_300_ROTATOR)
-            ObjSnr300Rotator = new Snr300Rotator();
+		// you must initialize each sensor object if want to use
+		if(snr == SNR_300_ROTATOR)
+			ObjSnr300Rotator = new Snr300Rotator();
         
 		if(snr == SNR_IR_DISTANCE)
-            ObjSnrIrDistance = new SnrIrDistance();
+			ObjSnrIrDistance = new SnrIrDistance();
         
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 	
 	/**
