@@ -6,6 +6,8 @@
 
 package phidgetlab2;
 
+import com.phidgets.PhidgetException;
+
 /**
  *
  * @author sandeepnarwal
@@ -18,7 +20,11 @@ public class Snr300Rotator extends SnrCore{
 		
 	}
 	
-	public void setDistanceSensorSensitivity(){
+	/**
+	 *
+	 * @throws PhidgetException
+	 */
+	public void setDistanceSensorSensitivity() throws PhidgetException{
 		
 		// calculate how much to change distance sensor sensitivity
 		

@@ -19,6 +19,11 @@ public class SnrIrDistance extends SnrCore{
        
     }
 	
+	/**
+	 *
+	 * @param value
+	 * @throws PhidgetException
+	 */
 	public void setSensitivity(int value) throws PhidgetException{
 		
 		setSensorSensitivity(snrIndex, snrValue);
