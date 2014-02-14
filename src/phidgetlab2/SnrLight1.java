@@ -11,42 +11,34 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author sandeepnarwal
  */
-public class Snr300Rotator extends SnrCore{
-    
+public class SnrLight1 extends SnrCore{
 
 	@Override
 	public void performTask(){
 		
-		System.out.println(snrValue);
+		System.out.println("Snr 1 " + snrValue);
 		
 		Writer writer = new Writer();
 		writer.setContent(Integer.toString(snrValue));
-		writer.setFile("toFile.csv");
+		writer.setFile("toL1File.csv");
 		
 		try {
 			boolean flag = writer.write();
 		} catch (IOException ex) {
-			Logger.getLogger(Snr300Rotator.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SnrLight1.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
 		
 	}
-	
-	/**
-	 *
-	 * @throws PhidgetException
-	 */
-	public void setDistanceSensorSensitivity() throws PhidgetException{
+
+	public void writeCSV(){
 		
-		// calculate how much to change distance sensor sensitivity
-		
-		int value = 0;
-		ObjSnrIrDistance.setSensitivity(value);
 		
 	}
+	
+
 }

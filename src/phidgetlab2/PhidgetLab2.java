@@ -31,15 +31,16 @@ public class PhidgetLab2 {
         ObjPhiCore.initialize();
         
         // set sensor sensitivity if any, optional
-        ObjSnrCore.setSensorSensitivity(SnrCore.SNR_300_ROTATOR, SnrCore.SENSITIVE_LEVEL_5);
+        //ObjSnrCore.setSensorSensitivity(SnrCore.SNR_300_ROTATOR, SnrCore.SENSITIVE_LEVEL_5);
         
         // init sensors one by one, as you attach more sensors
 		// you can initialize here, or in the codes when needed
         ObjSnrCore.initializeSensor(SnrCore.SNR_300_ROTATOR);
-        ObjSnrCore.initializeSensor(SnrCore.SNR_IR_DISTANCE);
+        ObjSnrCore.initializeSensor(SnrCore.SNR_LIGHT_1);
+        ObjSnrCore.initializeSensor(SnrCore.SNR_LIGHT_2);
         
         // trigger the change event
-        ObjSnrCore.getChangedSensors();
+        ObjSnrCore.triggerChangedSensors();
         
         // wait for input, so that we see the output
         System.in.read();

@@ -21,18 +21,28 @@ public class SnrCore extends PhiCore{
 	// whenever sensors are attached
     static int SNR_300_ROTATOR = 0;
     static int SNR_IR_DISTANCE = 1;
+    static int SNR_LIGHT_1 = 3;
+	static int SNR_LIGHT_2 = 6;
+	
     
     // sensitivity level, can be from 0 - 1000
     // lower the number higher the sensitivity
     static int SENSITIVE_LEVEL_1 = 900;
-    static int SENSITIVE_LEVEL_2 = 650;
-    static int SENSITIVE_LEVEL_3 = 450;
-    static int SENSITIVE_LEVEL_4 = 250;
-    static int SENSITIVE_LEVEL_5 = 1;
+    static int SENSITIVE_LEVEL_2 = 700;
+    static int SENSITIVE_LEVEL_3 = 550;
+    static int SENSITIVE_LEVEL_4 = 350;
+    static int SENSITIVE_LEVEL_5 = 200;
+    static int SENSITIVE_LEVEL_6 = 100;
+    static int SENSITIVE_LEVEL_7 = 50;
+    static int SENSITIVE_LEVEL_8 = 20;
+    static int SENSITIVE_LEVEL_9 = 1;
     
 	// all sensor object goes here
     Snr300Rotator ObjSnr300Rotator;
     SnrIrDistance ObjSnrIrDistance;
+    SnrLight1 ObjSnrLight1;
+	SnrLight2 ObjSnrLight2;
+	
     
     /**
      *
@@ -51,7 +61,7 @@ public class SnrCore extends PhiCore{
     /**
      *  
      */
-    public void getChangedSensors(){
+    public void triggerChangedSensors(){
         
 		// sensor change even lister
 		// from phidget API
@@ -61,18 +71,31 @@ public class SnrCore extends PhiCore{
             public void sensorChanged(SensorChangeEvent ChangedSnr) {
                 
                 int currentIndex = ChangedSnr.getIndex();
+                int currentValue = ChangedSnr.getValue();
                 
-                //System.out.println(data);
                 if(currentIndex == SNR_300_ROTATOR){
-                    ObjSnr300Rotator.setValue(ChangedSnr.getValue());
+					ObjSnr300Rotator.setValue(currentValue);
                     ObjSnr300Rotator.performTask();
                 }
                 
-                //System.out.println(data);
-                if(snrIndex == SNR_IR_DISTANCE){
-                    //ObjSnrIrDistance.setValue(snrValue);
-                    //ObjSnrIrDistance.performTask();
+				if(currentIndex == SNR_LIGHT_1){
+					ObjSnrLight1.setValue(currentValue);
+
+					// get data only in dark light
+					if(currentValue < SENSITIVE_LEVEL_5)
+	                    ObjSnrLight1.performTask();
                 }
+				
+				if(currentIndex == SNR_LIGHT_2){
+                    ObjSnrLight2.setValue(currentValue);
+
+					// get data only in dark light
+					if(currentValue < SENSITIVE_LEVEL_5)
+		                ObjSnrLight2.performTask();
+                }
+				
+				
+				
             }
         
         });
@@ -83,15 +106,24 @@ public class SnrCore extends PhiCore{
      *
      * @param snr
      */
-    public void initializeSensor(int snr) {
+    public void initializeSensor(int snr) throws PhidgetException {
         
 		// you must initialize each sensor object if want to use
-		if(snr == SNR_300_ROTATOR)
+		if(snr == SNR_300_ROTATOR){
 			ObjSnr300Rotator = new Snr300Rotator();
-        
-		if(snr == SNR_IR_DISTANCE)
-			ObjSnrIrDistance = new SnrIrDistance();
-        
+			ObjSnr300Rotator.setSensorSensitivity(snr,SENSITIVE_LEVEL_9);
+		}
+		
+		if(snr == SNR_LIGHT_1){
+			ObjSnrLight1 = new SnrLight1();
+			ObjSnrLight1.setSensorSensitivity(snr,SENSITIVE_LEVEL_9);
+		}
+		
+		if(snr == SNR_LIGHT_2){
+			ObjSnrLight2 = new SnrLight2();
+			ObjSnrLight2.setSensorSensitivity(snr,SENSITIVE_LEVEL_9);
+		}
+
     }
 	
 	/**
