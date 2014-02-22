@@ -8,6 +8,8 @@ package phidgetlab2;
 
 import com.phidgets.*;
 import com.phidgets.event.*;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 /**
  *
@@ -24,6 +26,10 @@ public class SnrCore extends PhiCore{
     static int SNR_LIGHT_1 = 3;
 	static int SNR_LIGHT_2 = 6;
 	
+	/*
+	TODO later use hashmap instead of this array
+	*/
+	//int connectedSnr = {  };
     
     // sensitivity level, can be from 0 - 1000
     // lower the number higher the sensitivity
@@ -43,7 +49,20 @@ public class SnrCore extends PhiCore{
     SnrLight1 ObjSnrLight1;
 	SnrLight2 ObjSnrLight2;
 	
-    
+    public SnrCore(){
+		
+		/*
+		TODO refine it, this should contain the list of all sensors
+		*/
+
+		/*
+		Hashtable<Integer, String> source = new Hashtable<Integer,String>();
+		HashMap<Integer, String>  map = new HashMap(source);
+		map.put(0, "SNR_300_RORATOR");
+		*/
+		
+	}
+	
     /**
      *
      * @param Snr
@@ -70,7 +89,13 @@ public class SnrCore extends PhiCore{
             @Override
             public void sensorChanged(SensorChangeEvent ChangedSnr) {
                 
-                int currentIndex = ChangedSnr.getIndex();
+				/*
+				TODO use for loop to auto set values
+				put all sensors in an array of objects and loop through each
+				adding a sensor should be as simple as adding into array and assigning the port num
+				*/
+                
+				int currentIndex = ChangedSnr.getIndex();
                 int currentValue = ChangedSnr.getValue();
                 
                 if(currentIndex == SNR_300_ROTATOR){
@@ -108,6 +133,11 @@ public class SnrCore extends PhiCore{
      */
     public void initializeSensor(int snr) throws PhidgetException {
         
+		/*
+			TODO later convert to for loop
+			so that you do not have to initialize sensors manuall
+		
+		*/
 		// you must initialize each sensor object if want to use
 		if(snr == SNR_300_ROTATOR){
 			ObjSnr300Rotator = new Snr300Rotator();

@@ -12,8 +12,11 @@ import com.phidgets.PhidgetException;
  *
  * @author sandeepnarwal
  */
-public class SnrIrDistance extends SnrCore{
-    
+public class SnrIrDistance extends SnrCore implements InterfaceSnr{
+
+	final private static int PORT = 1;
+	
+	
     @Override
 	public void performTask(){
        

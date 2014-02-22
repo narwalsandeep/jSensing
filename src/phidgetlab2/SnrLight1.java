@@ -15,8 +15,10 @@ import java.util.logging.Logger;
  *
  * @author sandeepnarwal
  */
-public class SnrLight1 extends SnrCore{
+public class SnrLight1 extends SnrCore implements InterfaceSnr{
 
+	final private static int PORT = 3;
+	
 	@Override
 	public void performTask(){
 		
@@ -38,6 +40,16 @@ public class SnrLight1 extends SnrCore{
 	public void writeCSV(){
 		
 		
+	}
+
+	/**
+	 *
+	 * @param value
+	 * @throws PhidgetException
+	 */
+	public void setSensitivity(int value) throws PhidgetException{
+		
+		setSensorSensitivity(snrIndex, snrValue);
 	}
 	
 

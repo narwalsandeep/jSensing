@@ -6,6 +6,7 @@
 
 package phidgetlab2;
 
+import com.phidgets.PhidgetException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,8 +15,10 @@ import java.util.logging.Logger;
  *
  * @author sandeepnarwal
  */
-public class SnrLight2 extends SnrCore{
+public class SnrLight2 extends SnrCore implements InterfaceSnr{
 
+	final private static int PORT = 6;
+	
 	@Override
 	public void performTask(){
 		
@@ -34,4 +37,13 @@ public class SnrLight2 extends SnrCore{
 		
 	}
 
+	/**
+	 *
+	 * @param value
+	 * @throws PhidgetException
+	 */
+	public void setSensitivity(int value) throws PhidgetException{
+		
+		setSensorSensitivity(snrIndex, snrValue);
+	}
 }

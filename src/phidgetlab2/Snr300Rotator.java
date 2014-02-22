@@ -16,9 +16,10 @@ import java.util.logging.Logger;
  *
  * @author sandeepnarwal
  */
-public class Snr300Rotator extends SnrCore{
+public class Snr300Rotator extends SnrCore implements InterfaceSnr{
     
-
+	final private static int PORT = 0;
+	
 	@Override
 	public void performTask(){
 		
@@ -34,7 +35,6 @@ public class Snr300Rotator extends SnrCore{
 			Logger.getLogger(Snr300Rotator.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
-		
 	}
 	
 	/**
@@ -48,5 +48,15 @@ public class Snr300Rotator extends SnrCore{
 		int value = 0;
 		ObjSnrIrDistance.setSensitivity(value);
 		
+	}
+
+		/**
+	 *
+	 * @param value
+	 * @throws PhidgetException
+	 */
+	public void setSensitivity(int value) throws PhidgetException{
+		
+		setSensorSensitivity(snrIndex, snrValue);
 	}
 }
