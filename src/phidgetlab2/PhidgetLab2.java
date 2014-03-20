@@ -22,25 +22,15 @@ public class PhidgetLab2 {
 
         // kit core class object
         PhiCore ObjPhiCore = new PhiCore();
+        // initilaze the kit 
+        ObjPhiCore.initialize();
         
         // sensor core class object
         // all sensor extend this
         SnrCore ObjSnrCore = new SnrCore();
-        
-        // initilaze the kit 
-        ObjPhiCore.initialize();
-        
-        // set sensor sensitivity if any, optional
-        //ObjSnrCore.setSensorSensitivity(SnrCore.SNR_300_ROTATOR, SnrCore.SENSITIVE_LEVEL_5);
-        
-        // init sensors one by one, as you attach more sensors
-		// you can initialize here, or in the codes when needed
-        ObjSnrCore.initializeSensor(SnrCore.SNR_300_ROTATOR);
-        ObjSnrCore.initializeSensor(SnrCore.SNR_LIGHT_1);
-        ObjSnrCore.initializeSensor(SnrCore.SNR_LIGHT_2);
-        
         // trigger the change event
-        ObjSnrCore.triggerChangedSensors();
+        
+		ObjSnrCore.initSensors();
         
         // wait for input, so that we see the output
         System.in.read();

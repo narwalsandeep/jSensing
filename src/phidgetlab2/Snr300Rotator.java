@@ -8,6 +8,8 @@ package phidgetlab2;
 
 import com.phidgets.PhidgetException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,13 +20,14 @@ import java.util.logging.Logger;
  */
 public class Snr300Rotator extends SnrCore implements InterfaceSnr{
     
-	final private static int PORT = 0;
-	
 	@Override
-	public void performTask(){
+	public void initialize(int currentValue){
 		
-		System.out.println(snrValue);
+		setValue(currentValue);
 		
+		System.out.println("getValue() "+getValue());
+		
+		/*
 		Writer writer = new Writer();
 		writer.setContent(Integer.toString(snrValue));
 		writer.setFile("toFile.csv");
@@ -34,7 +37,7 @@ public class Snr300Rotator extends SnrCore implements InterfaceSnr{
 		} catch (IOException ex) {
 			Logger.getLogger(Snr300Rotator.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
+		*/
 	}
 	
 	/**

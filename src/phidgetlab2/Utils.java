@@ -14,8 +14,6 @@ public class Utils {
 	
 	public int calcMean(int[] value){
 		
-		//for()
-		
 		return 1;
 		
 	}

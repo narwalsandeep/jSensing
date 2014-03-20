@@ -20,7 +20,7 @@ public class SnrLight2 extends SnrCore implements InterfaceSnr{
 	final private static int PORT = 6;
 	
 	@Override
-	public void performTask(){
+	public void initialize(int currentValue){
 		
 		System.out.println("Snr 2 " + snrValue);
 		

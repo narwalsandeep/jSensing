@@ -16,14 +16,15 @@ import java.util.logging.Logger;
  * @author sandeepnarwal
  */
 public class SnrLight1 extends SnrCore implements InterfaceSnr{
-
-	final private static int PORT = 3;
 	
 	@Override
-	public void performTask(){
+	public void initialize(int currentValue){
 		
-		System.out.println("Snr 1 " + snrValue);
+		setValue(currentValue);
 		
+		System.out.println("getValue() "+getValue());
+		
+		/*
 		Writer writer = new Writer();
 		writer.setContent(Integer.toString(snrValue));
 		writer.setFile("toL1File.csv");
@@ -33,7 +34,7 @@ public class SnrLight1 extends SnrCore implements InterfaceSnr{
 		} catch (IOException ex) {
 			Logger.getLogger(SnrLight1.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
+		*/
 		
 	}
 

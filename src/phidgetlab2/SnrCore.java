@@ -8,9 +8,7 @@ package phidgetlab2;
 
 import com.phidgets.*;
 import com.phidgets.event.*;
-import java.util.HashMap;
-import java.util.Hashtable;
-
+import javax.swing.JFrame;
 /**
  *
  * @author sandeepnarwal
@@ -21,11 +19,18 @@ public class SnrCore extends PhiCore{
 	
 	// must define all sensor port number
 	// whenever sensors are attached
-    static int SNR_300_ROTATOR = 0;
+    static int SNR_300_ROTATOR = 7;
     static int SNR_IR_DISTANCE = 1;
-    static int SNR_LIGHT_1 = 3;
-	static int SNR_LIGHT_2 = 6;
-	
+    static int SNR_LIGHT_1 = 6;
+	static int SNR_LIGHT_2 = 5;
+
+	// all sensor object goes here
+	// each for above 
+    Snr300Rotator ObjSnr300Rotator;
+    SnrIrDistance ObjSnrIrDistance;
+    SnrLight1 ObjSnrLight1;
+	SnrLight2 ObjSnrLight2;
+
 	/*
 	TODO later use hashmap instead of this array
 	*/
@@ -43,14 +48,11 @@ public class SnrCore extends PhiCore{
     static int SENSITIVE_LEVEL_8 = 20;
     static int SENSITIVE_LEVEL_9 = 1;
     
-	// all sensor object goes here
-    Snr300Rotator ObjSnr300Rotator;
-    SnrIrDistance ObjSnrIrDistance;
-    SnrLight1 ObjSnrLight1;
-	SnrLight2 ObjSnrLight2;
+	LiveChart spanel;
 	
     public SnrCore(){
 		
+
 		/*
 		TODO refine it, this should contain the list of all sensors
 		*/
@@ -80,8 +82,19 @@ public class SnrCore extends PhiCore{
     /**
      *  
      */
-    public void triggerChangedSensors(){
+    public void initSensors(){
         
+		spanel = new LiveChart();
+		spanel.initParticle();
+		
+		JFrame frame = new JFrame();
+		frame.getContentPane().add(spanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(800, 512);
+		frame.setVisible(true);
+		
+		System.out.println("init spanel");
+
 		// sensor change even lister
 		// from phidget API
         ObjPhiKit.addSensorChangeListener(new SensorChangeListener(){
@@ -99,27 +112,22 @@ public class SnrCore extends PhiCore{
                 int currentValue = ChangedSnr.getValue();
                 
                 if(currentIndex == SNR_300_ROTATOR){
-					ObjSnr300Rotator.setValue(currentValue);
-                    ObjSnr300Rotator.performTask();
+					ObjSnr300Rotator = new Snr300Rotator();
+					ObjSnr300Rotator.initialize(currentValue);
+					spanel.estimate(currentValue);
+
                 }
                 
 				if(currentIndex == SNR_LIGHT_1){
-					ObjSnrLight1.setValue(currentValue);
-
-					// get data only in dark light
-					if(currentValue < SENSITIVE_LEVEL_5)
-	                    ObjSnrLight1.performTask();
+					ObjSnrLight1 = new SnrLight1();
+					ObjSnrLight1.initialize(currentValue);
+					spanel.estimate(currentValue);
                 }
 				
 				if(currentIndex == SNR_LIGHT_2){
-                    ObjSnrLight2.setValue(currentValue);
-
-					// get data only in dark light
-					if(currentValue < SENSITIVE_LEVEL_5)
-		                ObjSnrLight2.performTask();
+					ObjSnrLight2 = new SnrLight2();
+					ObjSnrLight2.initialize(currentValue);
                 }
-				
-				
 				
             }
         
@@ -127,35 +135,6 @@ public class SnrCore extends PhiCore{
         
     }
 
-    /**
-     *
-     * @param snr
-     */
-    public void initializeSensor(int snr) throws PhidgetException {
-        
-		/*
-			TODO later convert to for loop
-			so that you do not have to initialize sensors manuall
-		
-		*/
-		// you must initialize each sensor object if want to use
-		if(snr == SNR_300_ROTATOR){
-			ObjSnr300Rotator = new Snr300Rotator();
-			ObjSnr300Rotator.setSensorSensitivity(snr,SENSITIVE_LEVEL_9);
-		}
-		
-		if(snr == SNR_LIGHT_1){
-			ObjSnrLight1 = new SnrLight1();
-			ObjSnrLight1.setSensorSensitivity(snr,SENSITIVE_LEVEL_9);
-		}
-		
-		if(snr == SNR_LIGHT_2){
-			ObjSnrLight2 = new SnrLight2();
-			ObjSnrLight2.setSensorSensitivity(snr,SENSITIVE_LEVEL_9);
-		}
-
-    }
-	
 	/**
      *
      * @param val
@@ -178,12 +157,6 @@ public class SnrCore extends PhiCore{
     public void printValue(){
         System.out.println(snrValue);
     }
-    
-    /**
-     * you must override this method
-     */
-    public void performTask(){
-        
-    }
+ 
 
 }

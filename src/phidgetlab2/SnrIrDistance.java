@@ -18,7 +18,7 @@ public class SnrIrDistance extends SnrCore implements InterfaceSnr{
 	
 	
     @Override
-	public void performTask(){
+	public void initialize(int currentValue){
        
     }
 	
