@@ -22,7 +22,7 @@ public class SnrLight1 extends SnrCore implements InterfaceSnr{
 		
 		setValue(currentValue);
 		
-		System.out.println("getValue() "+getValue());
+		//System.out.println("getValue() "+getValue());
 		
 		/*
 		Writer writer = new Writer();

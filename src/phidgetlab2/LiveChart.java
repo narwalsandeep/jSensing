@@ -38,7 +38,7 @@ public class LiveChart extends JPanel {
 		
         /*ParticleFilter(int particles, int minVal, int maxVal, double resampVariance)*/
 		pf = new ParticleFilter(100, 0, 600, 30.0);
-        System.out.println("pf value" + pf.toString());
+       // System.out.println("pf value" + pf.toString());
         
 		rnd = new Random(System.currentTimeMillis());
         
@@ -50,7 +50,7 @@ public class LiveChart extends JPanel {
 		
 	}
 
-	public void estimate(int currentValue){
+	public void estimate(double currentValue){
 		
 		sensorXNoise = (double)currentValue + (rnd.nextGaussian() * 100);
 		pf.update((double) sensorXNoise);

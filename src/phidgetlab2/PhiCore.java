@@ -38,6 +38,7 @@ public class PhiCore {
         // Phi kit object
         ObjPhiKit = new InterfaceKitPhidget();
         
+		
         // open Phi board, there can be more then one Phi board attached,
         // in such a case use open(ID).
         // below will open first available Phidget
@@ -45,9 +46,12 @@ public class PhiCore {
         // NOTE: phi is not ready yet
         ObjPhiKit.openAny();
         
+		
         try{
             // not check if phi is ready and well connected
             ObjPhiKit.waitForAttachment(WAIT_TO_BE_READY);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_IR_DISTANCE, 0);
+			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_LIGHT_1, 0);
                 
         }
         catch(Exception e){
