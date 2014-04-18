@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package phidgetlab2;
+package core;
 
 import com.phidgets.*;
 
@@ -15,11 +15,12 @@ import com.phidgets.*;
 public class PhiCore {
     
     // wait 10 seconds only
-    static int WAIT_TO_BE_READY = 10000;
+    static int WAIT_MILI_SECONDS = 10000;
     
     // kit obj
     static InterfaceKitPhidget ObjPhiKit;
     
+	static int MIN_CHANGE_TRIGGER = 1;
     //SnrIrDistance ObjSnrIrDistance;
 
     /**
@@ -46,12 +47,18 @@ public class PhiCore {
         // NOTE: phi is not ready yet
         ObjPhiKit.openAny();
         
-		
         try{
             // not check if phi is ready and well connected
-            ObjPhiKit.waitForAttachment(WAIT_TO_BE_READY);
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_IR_DISTANCE, 0);
-			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_LIGHT_1, 0);
+            ObjPhiKit.waitForAttachment(WAIT_MILI_SECONDS);
+			
+			// at this point sensors are attached
+			// configure all sensor to be used in change event
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_IR_DISTANCE, MIN_CHANGE_TRIGGER);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_300_ROTATOR, MIN_CHANGE_TRIGGER);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_LIGHT, MIN_CHANGE_TRIGGER);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_VIBRATION_1, MIN_CHANGE_TRIGGER);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_VIBRATION_2, MIN_CHANGE_TRIGGER);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_MOTION, MIN_CHANGE_TRIGGER);
                 
         }
         catch(Exception e){

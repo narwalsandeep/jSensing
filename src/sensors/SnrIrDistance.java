@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package phidgetlab2;
+package sensors;
 
+import core.SnrCore;
 import com.phidgets.PhidgetException;
 
 /**

@@ -1,4 +1,4 @@
-package phidgetlab2;
+package lib;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

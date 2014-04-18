@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-package phidgetlab2;
+package sensors;
 
+import core.SnrCore;
 import com.phidgets.PhidgetException;
+import lib.Writer;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author sandeepnarwal
  */
-public class SnrLight2 extends SnrCore implements InterfaceSnr{
+public class SnrVibration2 extends SnrCore implements InterfaceSnr{
 
 	final private static int PORT = 6;
 	
@@ -31,7 +33,7 @@ public class SnrLight2 extends SnrCore implements InterfaceSnr{
 		try {
 			boolean flag = writer.write();
 		} catch (IOException ex) {
-			Logger.getLogger(SnrLight2.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SnrVibration2.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
 		

@@ -6,7 +6,7 @@
 
 */
 
-package phidgetlab2;
+package lib;
 
 /**
  *

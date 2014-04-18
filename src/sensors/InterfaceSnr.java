@@ -4,22 +4,18 @@
  * and open the template in the editor.
  */
 
-package phidgetlab2;
+package sensors;
+
+import com.phidgets.PhidgetException;
 
 /**
  *
  * @author sandeepnarwal
  */
-public class Config {
+public interface InterfaceSnr {
 	
-	public Hashmap getSensor(){
-		
-		return new Hashmap<String, String>();
-	}
+	public void setSensitivity(int value) throws PhidgetException;
 
-	private static class Hashmap<T0, T1> {
-
-		public Hashmap() {
-		}
-	}
+	public void initialize(int value);
+	
 }

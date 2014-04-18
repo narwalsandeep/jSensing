@@ -4,39 +4,54 @@
  * and open the template in the editor.
  */
 
-package phidgetlab2;
+package core;
 
+import sensors.Snr300Rotator;
+import lib.LiveChart;
+import lib.Http;
+import lib.HighPassFilter;
 import com.phidgets.*;
 import com.phidgets.event.*;
+import core.PhiCore;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import sensors.Snr300Rotator;
+import sensors.SnrIrDistance;
+import sensors.SnrLight;
+import sensors.SnrMotion;
+import sensors.SnrVibration1;
+import sensors.SnrVibration2;
 /**
  *
  * @author sandeepnarwal
  */
 public class SnrCore extends PhiCore{
  
-    int snrIndex, snrValue;
+    public int snrIndex, snrValue;
 	
 	// must define all sensor port number
 	// whenever sensors are attached
-    static int SNR_300_ROTATOR = 3;
-    static int SNR_LIGHT_1 = 0;
-
-	static int SNR_IR_DISTANCE = 7;
-	static int SNR_LIGHT_2 = 5;
+	static int SNR_VIBRATION_1		= 0;
+	static int SNR_IR_DISTANCE		= 2;
+	static int SNR_MOTION			= 3;
+    static int SNR_300_ROTATOR		= 4;
+    static int SNR_LIGHT			= 6;
+	static int SNR_VIBRATION_2		= 7;
+	
 
 	// all sensor object goes here
 	// each for above 
-    Snr300Rotator ObjSnr300Rotator;
-    SnrIrDistance ObjSnrIrDistance;
-    SnrLight1 ObjSnrLight1;
-	SnrLight2 ObjSnrLight2;
-
+    public SnrVibration1 ObjSnrVibration1;
+    public SnrVibration2 ObjSnrVibration2;
+    public Snr300Rotator ObjSnr300Rotator;
+    public SnrMotion ObjSnrMotion;
+    public SnrIrDistance ObjSnrIrDistance;
+    public SnrLight ObjSnrLight;
+	
 	/*
 	TODO later use hashmap instead of this array
 	*/
@@ -66,11 +81,10 @@ public class SnrCore extends PhiCore{
 	
 	double triggerVal = 200;
 	boolean lightsOn = false;
-
+	//*/
 	
     public SnrCore(){
 		
-
 		/*
 		TODO refine it, this should contain the list of all sensors
 		*/
@@ -102,7 +116,7 @@ public class SnrCore extends PhiCore{
      */
     public void initSensors(){
         
-		ObjHPFilter = new HighPassFilter();
+		/*ObjHPFilter = new HighPassFilter();
 		
 		ObjHttp = new Http();
 		
@@ -119,7 +133,8 @@ public class SnrCore extends PhiCore{
 		
 		threshHoldMin = 300;
 		threshHoldMax = 800;
-
+		*/
+		
 		// sensor change even lister
 		// from phidget API
         ObjPhiKit.addSensorChangeListener(new SensorChangeListener(){
@@ -145,9 +160,9 @@ public class SnrCore extends PhiCore{
 
                 }
                 
-				if(currentIndex == SNR_LIGHT_1){
-					ObjSnrLight1 = new SnrLight1();
-					ObjSnrLight1.initialize(currentValue);
+				if(currentIndex == SNR_LIGHT){
+					ObjSnrLight = new SnrLight();
+					ObjSnrLight.initialize(currentValue);
 					double newValue;
 					
 					if(currentValue > threshHoldMin && currentValue < threshHoldMax){	
@@ -203,12 +218,7 @@ public class SnrCore extends PhiCore{
 					//spanel.estimate(hpF);
 					
                 }
-				
-				if(currentIndex == SNR_LIGHT_2){
-					ObjSnrLight2 = new SnrLight2();
-					ObjSnrLight2.initialize(currentValue);
-                }
-				
+								
             }
         
         });

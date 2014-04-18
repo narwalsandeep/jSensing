@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-package phidgetlab2;
+package core;
 
 
 /**
  *
  * @author sandeepnarwal
  */
-public class PhidgetLab2 {
+public class Init {
 
     
     /**

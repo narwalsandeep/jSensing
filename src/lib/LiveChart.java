@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package phidgetlab2;
+package lib;
 
 import com.phidgets.PhidgetException;
 import java.awt.Color;

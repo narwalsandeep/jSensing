@@ -4,18 +4,17 @@
  * and open the template in the editor.
  */
 
-package phidgetlab2;
-
-import com.phidgets.PhidgetException;
+package lib;
 
 /**
  *
  * @author sandeepnarwal
  */
-public interface InterfaceSnr {
+public class Utils {
 	
-	public void setSensitivity(int value) throws PhidgetException;
-
-	public void initialize(int value);
-	
+	public int calcMean(int[] value){
+		
+		return 1;
+		
+	}
 }

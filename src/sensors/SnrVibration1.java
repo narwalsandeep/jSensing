@@ -4,17 +4,12 @@
  * and open the template in the editor.
  */
 
-package phidgetlab2;
+package sensors;
 
 /**
  *
- * @author sandeepnarwal
+ * @author "as2d3f"
  */
-public class Utils {
+public class SnrVibration1 {
 	
-	public int calcMean(int[] value){
-		
-		return 1;
-		
-	}
 }
