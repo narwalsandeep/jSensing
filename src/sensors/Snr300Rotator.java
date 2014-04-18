@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class Snr300Rotator extends SnrCore implements InterfaceSnr{
     
 	@Override
-	public void initialize(int currentValue){
+	public void trigger(int currentValue){
 		
 		setValue(currentValue);
 		
@@ -42,19 +42,6 @@ public class Snr300Rotator extends SnrCore implements InterfaceSnr{
 	}
 	
 	/**
-	 *
-	 * @throws PhidgetException
-	 */
-	public void setDistanceSensorSensitivity() throws PhidgetException{
-		
-		// calculate how much to change distance sensor sensitivity
-		
-		int value = 0;
-		ObjSnrIrDistance.setSensitivity(value);
-		
-	}
-
-		/**
 	 *
 	 * @param value
 	 * @throws PhidgetException

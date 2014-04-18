@@ -6,10 +6,31 @@
 
 package sensors;
 
+import com.phidgets.PhidgetException;
+import core.SnrCore;
+
 /**
  *
- * @author "as2d3f"
+ * @author sandeepnarwal
  */
-public class SnrVibration1 {
+public class SnrVibration1 extends SnrCore implements InterfaceSnr{
 	
+	@Override
+	public void trigger(int currentValue){
+		
+		setValue(currentValue);
+				
+	}
+
+	/**
+	 *
+	 * @param value
+	 * @throws PhidgetException
+	 */
+	public void setSensitivity(int value) throws PhidgetException{
+		
+		setSensorSensitivity(snrIndex, snrValue);
+	}
+	
+
 }

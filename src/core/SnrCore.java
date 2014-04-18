@@ -153,7 +153,7 @@ public class SnrCore extends PhiCore{
                 
                 if(currentIndex == SNR_300_ROTATOR){
 					ObjSnr300Rotator = new Snr300Rotator();
-					ObjSnr300Rotator.initialize(currentValue);
+					ObjSnr300Rotator.trigger(currentValue);
 					
 					//spanel.estimate(currentValue);
 					//spanel.estimate((int) ObjHPFilter.getFilter(currentValue,0.80));
@@ -162,8 +162,9 @@ public class SnrCore extends PhiCore{
                 
 				if(currentIndex == SNR_LIGHT){
 					ObjSnrLight = new SnrLight();
-					ObjSnrLight.initialize(currentValue);
-					double newValue;
+					ObjSnrLight.trigger(currentValue);
+					
+					/* double newValue;
 					
 					if(currentValue > threshHoldMin && currentValue < threshHoldMax){	
 						//newValue = ((double)currentValue)/1024.0;
@@ -174,13 +175,14 @@ public class SnrCore extends PhiCore{
 						//spanel.estimate(currentValue);
 						//spanel.estimate(hpF);
 					}
+					*/
 				}
 
 				if(currentIndex == SNR_IR_DISTANCE){
 					ObjSnrIrDistance = new SnrIrDistance();
-					ObjSnrIrDistance.initialize(currentValue);
+					ObjSnrIrDistance.trigger(currentValue);
 					
-					double newValue;
+					/*double newValue;
 					newValue = currentValue;
 						
 					// tick
@@ -216,7 +218,7 @@ public class SnrCore extends PhiCore{
 
 					spanel.estimate(currentValue);
 					//spanel.estimate(hpF);
-					
+					*/
                 }
 								
             }

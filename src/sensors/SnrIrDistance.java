@@ -15,11 +15,9 @@ import com.phidgets.PhidgetException;
  */
 public class SnrIrDistance extends SnrCore implements InterfaceSnr{
 
-	final private static int PORT = 1;
-	
 	
     @Override
-	public void initialize(int currentValue){
+	public void trigger(int currentValue){
        
     }
 	

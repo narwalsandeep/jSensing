@@ -19,29 +19,10 @@ import java.util.logging.Logger;
 public class SnrLight extends SnrCore implements InterfaceSnr{
 	
 	@Override
-	public void initialize(int currentValue){
+	public void trigger(int currentValue){
 		
 		setValue(currentValue);
-		
-		//System.out.println("getValue() "+getValue());
-		
-		/*
-		Writer writer = new Writer();
-		writer.setContent(Integer.toString(snrValue));
-		writer.setFile("toL1File.csv");
-		
-		try {
-			boolean flag = writer.write();
-		} catch (IOException ex) {
-			Logger.getLogger(SnrLight.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		*/
-		
-	}
-
-	public void writeCSV(){
-		
-		
+				
 	}
 
 	/**

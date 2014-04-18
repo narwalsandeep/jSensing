@@ -16,6 +16,6 @@ public interface InterfaceSnr {
 	
 	public void setSensitivity(int value) throws PhidgetException;
 
-	public void initialize(int value);
+	public void trigger(int value);
 	
 }

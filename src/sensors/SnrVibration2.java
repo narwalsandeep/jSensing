@@ -6,37 +6,20 @@
 
 package sensors;
 
-import core.SnrCore;
 import com.phidgets.PhidgetException;
-import lib.Writer;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import core.SnrCore;
 
 /**
  *
  * @author sandeepnarwal
  */
 public class SnrVibration2 extends SnrCore implements InterfaceSnr{
-
-	final private static int PORT = 6;
 	
 	@Override
-	public void initialize(int currentValue){
+	public void trigger(int currentValue){
 		
-		System.out.println("Snr 2 " + snrValue);
-		
-		Writer writer = new Writer();
-		writer.setContent(Integer.toString(snrValue));
-		writer.setFile("toL2File.csv");
-		
-		try {
-			boolean flag = writer.write();
-		} catch (IOException ex) {
-			Logger.getLogger(SnrVibration2.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		
-		
+		setValue(currentValue);
+				
 	}
 
 	/**
@@ -48,4 +31,6 @@ public class SnrVibration2 extends SnrCore implements InterfaceSnr{
 		
 		setSensorSensitivity(snrIndex, snrValue);
 	}
+	
+
 }
