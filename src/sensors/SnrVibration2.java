@@ -15,10 +15,24 @@ import core.SnrCore;
  */
 public class SnrVibration2 extends SnrCore implements InterfaceSnr{
 	
+	private static SnrVibration2 instance = null;
+
+	public SnrVibration2(){
+		
+	}
+	
+	public static SnrVibration2 getInstance() {
+	  if(instance == null) {
+		 instance = new SnrVibration2();
+	  }
+	  return instance;
+	}
+
 	@Override
 	public void trigger(int currentValue){
 		
-		setValue(currentValue);
+		//setValue(currentValue);
+		//this.printValue();
 				
 	}
 
@@ -29,7 +43,7 @@ public class SnrVibration2 extends SnrCore implements InterfaceSnr{
 	 */
 	public void setSensitivity(int value) throws PhidgetException{
 		
-		setSensorSensitivity(snrIndex, snrValue);
+		//setSensorSensitivity(getSnrIndex(), getSnrValue());
 	}
 	
 

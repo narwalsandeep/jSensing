@@ -8,6 +8,7 @@ package core;
 
 import com.phidgets.*;
 
+
 /**
  *
  * @author sandeepnarwal
@@ -15,14 +16,11 @@ import com.phidgets.*;
 public class PhiCore {
     
     // wait 10 seconds only
-    static int WAIT_MILI_SECONDS = 10000;
+    static int WAIT_MILI_SECONDS = 5000;
     
     // kit obj
     static InterfaceKitPhidget ObjPhiKit;
     
-	static int MIN_CHANGE_TRIGGER = 1;
-    //SnrIrDistance ObjSnrIrDistance;
-
     /**
      *
      */
@@ -39,7 +37,6 @@ public class PhiCore {
         // Phi kit object
         ObjPhiKit = new InterfaceKitPhidget();
         
-		
         // open Phi board, there can be more then one Phi board attached,
         // in such a case use open(ID).
         // below will open first available Phidget
@@ -50,16 +47,19 @@ public class PhiCore {
         try{
             // not check if phi is ready and well connected
             ObjPhiKit.waitForAttachment(WAIT_MILI_SECONDS);
-			
+			System.out.println("Attaching sensors ...");
 			// at this point sensors are attached
-			// configure all sensor to be used in change event
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_IR_DISTANCE, MIN_CHANGE_TRIGGER);
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_300_ROTATOR, MIN_CHANGE_TRIGGER);
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_LIGHT, MIN_CHANGE_TRIGGER);
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_VIBRATION_1, MIN_CHANGE_TRIGGER);
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_VIBRATION_2, MIN_CHANGE_TRIGGER);
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_MOTION, MIN_CHANGE_TRIGGER);
-                
+			// configure all sensor trigger change gap
+			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_IR_DISTANCE, 100);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_300_ROTATOR, 10);
+			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_LIGHT, 100);
+			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_VIBRATION_1, 1);
+			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_VIBRATION_2, 50);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_MOTION, 10);
+			System.out.println("Done.");
+			System.out.println("________________________");
+			
+			
         }
         catch(Exception e){
             // if not connectint even after 10 seconds

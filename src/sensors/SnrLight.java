@@ -18,11 +18,25 @@ import java.util.logging.Logger;
  */
 public class SnrLight extends SnrCore implements InterfaceSnr{
 	
+	private static SnrLight instance = null;
+
+	public SnrLight(){
+		
+	}
+	
+	public static SnrLight getInstance() {
+	  if(instance == null) {
+		 instance = new SnrLight();
+	  }
+	  return instance;
+	}
+
 	@Override
 	public void trigger(int currentValue){
 		
-		setValue(currentValue);
-				
+		//setValue(currentValue);
+		//this.printValue();
+			
 	}
 
 	/**
@@ -32,7 +46,7 @@ public class SnrLight extends SnrCore implements InterfaceSnr{
 	 */
 	public void setSensitivity(int value) throws PhidgetException{
 		
-		setSensorSensitivity(snrIndex, snrValue);
+		//setSensorSensitivity(getSnrIndex(), getSnrValue());
 	}
 	
 

@@ -6,19 +6,13 @@
 
 package core;
 
-import sensors.Snr300Rotator;
 import lib.LiveChart;
 import lib.Http;
 import lib.HighPassFilter;
 import com.phidgets.*;
 import com.phidgets.event.*;
-import core.PhiCore;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import sensors.Snr300Rotator;
 import sensors.SnrIrDistance;
 import sensors.SnrLight;
@@ -31,44 +25,16 @@ import sensors.SnrVibration2;
  */
 public class SnrCore extends PhiCore{
  
-    public int snrIndex, snrValue;
-	
+    
 	// must define all sensor port number
 	// whenever sensors are attached
-	static int SNR_VIBRATION_1		= 0;
-	static int SNR_IR_DISTANCE		= 2;
-	static int SNR_MOTION			= 3;
-    static int SNR_300_ROTATOR		= 4;
-    static int SNR_LIGHT			= 6;
 	static int SNR_VIBRATION_2		= 7;
-	
-
-	// all sensor object goes here
-	// each for above 
-    public SnrVibration1 ObjSnrVibration1;
-    public SnrVibration2 ObjSnrVibration2;
-    public Snr300Rotator ObjSnr300Rotator;
-    public SnrMotion ObjSnrMotion;
-    public SnrIrDistance ObjSnrIrDistance;
-    public SnrLight ObjSnrLight;
-	
-	/*
-	TODO later use hashmap instead of this array
-	*/
-	//int connectedSnr = {  };
-    
-    // sensitivity level, can be from 0 - 1000
-    // lower the number higher the sensitivity
-    static int SENSITIVE_LEVEL_1 = 900;
-    static int SENSITIVE_LEVEL_2 = 700;
-    static int SENSITIVE_LEVEL_3 = 550;
-    static int SENSITIVE_LEVEL_4 = 350;
-    static int SENSITIVE_LEVEL_5 = 200;
-    static int SENSITIVE_LEVEL_6 = 100;
-    static int SENSITIVE_LEVEL_7 = 50;
-    static int SENSITIVE_LEVEL_8 = 20;
-    static int SENSITIVE_LEVEL_9 = 1;
-    
+	static int SNR_IR_DISTANCE		= 5;
+	static int SNR_MOTION			= 4;
+    static int SNR_300_ROTATOR		= 3;
+    static int SNR_LIGHT			= 1;
+	static int SNR_VIBRATION_1		= 0;
+	    
 	LiveChart spanel;
 	HighPassFilter ObjHPFilter;
 	
@@ -83,18 +49,22 @@ public class SnrCore extends PhiCore{
 	boolean lightsOn = false;
 	//*/
 	
+	private static SnrCore instance = null;
+	
     public SnrCore(){
 		
-		/*
-		TODO refine it, this should contain the list of all sensors
-		*/
-
-		/*
-		Hashtable<Integer, String> source = new Hashtable<Integer,String>();
-		HashMap<Integer, String>  map = new HashMap(source);
-		map.put(0, "SNR_300_RORATOR");
-		*/
+	}
+	public static SnrCore getInstance() {
+	  if(instance == null) {
+		 instance = new SnrCore();
+	  }
+	  return instance;
+	}
+	
 		
+	public InterfaceKitPhidget getObjPhiKit(){
+		
+		return ObjPhiKit;
 	}
 	
     /**
@@ -116,6 +86,8 @@ public class SnrCore extends PhiCore{
      */
     public void initSensors(){
         
+		SnrMotion.getInstance().setSnrIndex(SNR_MOTION);
+		Snr300Rotator.getInstance().setSnrIndex(SNR_300_ROTATOR);
 		/*ObjHPFilter = new HighPassFilter();
 		
 		ObjHttp = new Http();
@@ -140,29 +112,40 @@ public class SnrCore extends PhiCore{
         ObjPhiKit.addSensorChangeListener(new SensorChangeListener(){
 
             @Override
-            public void sensorChanged(SensorChangeEvent ChangedSnr) {
+            public void sensorChanged(SensorChangeEvent ChangedSnr)  {
                 
 				/*
 				TODO use for loop to auto set values
 				put all sensors in an array of objects and loop through each
 				adding a sensor should be as simple as adding into array and assigning the port num
 				*/
-                
+                //return null;
 				int currentIndex = ChangedSnr.getIndex();
                 int currentValue = ChangedSnr.getValue();
                 
+                if(currentIndex == SNR_MOTION){
+					SnrMotion.getInstance().trigger(currentValue);				
+                }
+                if(currentIndex == SNR_VIBRATION_1){
+					SnrVibration1.getInstance().trigger(currentValue);				
+                }
+                if(currentIndex == SNR_VIBRATION_2){
+					SnrVibration2.getInstance().trigger(currentValue);				
+                }
                 if(currentIndex == SNR_300_ROTATOR){
-					ObjSnr300Rotator = new Snr300Rotator();
-					ObjSnr300Rotator.trigger(currentValue);
-					
-					//spanel.estimate(currentValue);
-					//spanel.estimate((int) ObjHPFilter.getFilter(currentValue,0.80));
+					try {
+						Snr300Rotator.getInstance().trigger(currentValue);
+						//System.out.println(" = ");
+						//spanel.estimate((int) ObjHPFilter.getFilter(currentValue,0.80));
+						//spanel.estimate((int) ObjHPFilter.getFilter(currentValue,0.80));
+					} catch (PhidgetException ex) {
+						Logger.getLogger(SnrCore.class.getName()).log(Level.SEVERE, null, ex);
+					}
 
                 }
                 
 				if(currentIndex == SNR_LIGHT){
-					ObjSnrLight = new SnrLight();
-					ObjSnrLight.trigger(currentValue);
+					SnrLight.getInstance().trigger(currentValue);
 					
 					/* double newValue;
 					
@@ -179,8 +162,7 @@ public class SnrCore extends PhiCore{
 				}
 
 				if(currentIndex == SNR_IR_DISTANCE){
-					ObjSnrIrDistance = new SnrIrDistance();
-					ObjSnrIrDistance.trigger(currentValue);
+					SnrIrDistance.getInstance().trigger(currentValue);
 					
 					/*double newValue;
 					newValue = currentValue;
@@ -226,29 +208,9 @@ public class SnrCore extends PhiCore{
         });
         
     }
-
-	/**
-     *
-     * @param val
-     */
-    public void setValue(int val){
-        snrValue = val;
-    }
-    
-    /**
-     *
-     */
-    public int getValue(){
-		
-		return snrValue;
-    }
-    
-    /**
-     *
-     */
-    public void printValue(){
-        System.out.println(snrValue);
-    }
- 
+	
+	public void print(String s){
+		System.out.println(this.getClass()+ " - " + s);
+	}
 
 }

@@ -27,7 +27,7 @@ public class Init {
         
         // sensor core class object
         // all sensor extend this
-        SnrCore ObjSnrCore = new SnrCore();
+        SnrCore ObjSnrCore = SnrCore.getInstance();
         // trigger the change event
         
 		ObjSnrCore.initSensors();

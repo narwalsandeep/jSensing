@@ -7,6 +7,7 @@
 package sensors;
 
 import com.phidgets.PhidgetException;
+import core.SnrCore;
 
 /**
  *
@@ -14,8 +15,10 @@ import com.phidgets.PhidgetException;
  */
 public interface InterfaceSnr {
 	
+
 	public void setSensitivity(int value) throws PhidgetException;
 
-	public void trigger(int value);
+	public void trigger(int value) throws PhidgetException;
 	
+
 }
