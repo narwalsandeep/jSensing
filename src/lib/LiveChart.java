@@ -29,7 +29,36 @@ public class LiveChart extends JPanel {
 	ParticleFilter pf;
 	double sensorXNoise;
 
+	private static LiveChart instance = null;
+
+	/**
+	 *
+	 */
+	public LiveChart(){
+		
+	}
 	
+	/**
+	 *
+	 * @return
+	 */
+	public static LiveChart getInstance() {
+	  if(instance == null) {
+		 instance = new LiveChart();
+	  }
+	  return instance;
+	}
+	
+	public void initJPanel(){
+		
+		LiveChart.getInstance().initParticle();
+		JFrame frame = new JFrame();
+		frame.getContentPane().add(LiveChart.getInstance());
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(1024, 512);
+		frame.setVisible(true);
+		
+	}
 	public void initParticle(){
 		
 		sensorVals = new ArrayList<Double>();
@@ -94,11 +123,11 @@ public class LiveChart extends JPanel {
             int yval1 = (int)(yscale * sensorNoiseVals.get(i-1));
             int yval2 = (int)(yscale * sensorNoiseVals.get(i));
             //g2d.drawLine((int)xpos, yval1, (int)(xpos+xinc), yval2);
-            g2d.drawOval((int)(xpos+xinc), yval2, 7, 7);
+            //g2d.drawOval((int)(xpos+xinc), yval2, 7, 7);
             g2d.setColor(new Color(0, 150, 0));
             int fyval1 = (int)(yscale * filterVals.get(i-1));
             int fyval2 = (int)(yscale * filterVals.get(i));
-            g2d.drawLine((int)xpos, fyval1, (int)(xpos+xinc), fyval2);
+            //g2d.drawLine((int)xpos, fyval1, (int)(xpos+xinc), fyval2);
             xpos += xinc;
         }
     }    

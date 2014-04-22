@@ -11,14 +11,22 @@ import com.phidgets.PhidgetException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lib.HighPassFilter;
+import logics.Context;
 
 /**
  *
- * @author sandeepnarwal
+ * @author null
  */
 public class SnrLight extends SnrCore implements InterfaceSnr{
 	
 	private static SnrLight instance = null;
+
+	private int snrValue;
+	private int snrIndex;
+	private HighPassFilter ObjHPFilter;
+	private double hpF;
+	private boolean dayLightStatus;
 
 	public SnrLight(){
 		
@@ -34,9 +42,16 @@ public class SnrLight extends SnrCore implements InterfaceSnr{
 	@Override
 	public void trigger(int currentValue){
 		
-		//setValue(currentValue);
-		//this.printValue();
-			
+		setSnrValue(currentValue);
+		this.setDayLightStatus();
+		
+		this.setContext();
+
+	}
+
+	public void setContext(){
+		Context.getInstance().setContext(snrValue, instance);
+
 	}
 
 	/**
@@ -44,9 +59,41 @@ public class SnrLight extends SnrCore implements InterfaceSnr{
 	 * @param value
 	 * @throws PhidgetException
 	 */
+	@Override
 	public void setSensitivity(int value) throws PhidgetException{
+		setSensorSensitivity(this.getSnrIndex(),value);
+		//this.print(Integer.toString(getSnrValue()));
 		
-		//setSensorSensitivity(getSnrIndex(), getSnrValue());
+	}
+
+	public int getSnrIndex() {
+		return snrIndex;
+	}
+
+	public void setSnrIndex(int snrIndex) {
+		this.snrIndex = snrIndex;
+	}
+
+	public int getSnrValue() {
+		return snrValue;
+	}
+
+	public void setSnrValue(int snrValue) {
+		this.snrValue = snrValue;
+	}
+
+	public void setDayLightStatus(){
+		if(this.snrValue < 20){
+			this.dayLightStatus = false;
+		}
+		else{
+			this.dayLightStatus = true;
+		}
+			
+	}
+	
+	public boolean getDayLightStatus() {
+		return this.dayLightStatus;
 	}
 	
 

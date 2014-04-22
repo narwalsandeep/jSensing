@@ -13,6 +13,8 @@ import com.phidgets.*;
 import com.phidgets.event.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import logics.Context;
 import sensors.Snr300Rotator;
 import sensors.SnrIrDistance;
 import sensors.SnrLight;
@@ -29,27 +31,14 @@ public class SnrCore extends PhiCore{
 	// must define all sensor port number
 	// whenever sensors are attached
 	static int SNR_VIBRATION_2		= 7;
-	static int SNR_IR_DISTANCE		= 5;
-	static int SNR_MOTION			= 4;
+	static int SNR_IR_DISTANCE		= 4;
+	static int SNR_MOTION			= 5;
     static int SNR_300_ROTATOR		= 3;
     static int SNR_LIGHT			= 1;
 	static int SNR_VIBRATION_1		= 0;
-	    
-	LiveChart spanel;
-	HighPassFilter ObjHPFilter;
-	
-	Http ObjHttp;
-	
-	double threshHoldMin;
-	double threshHoldMax;
-	
-	double hpF;
-	
-	double triggerVal = 200;
-	boolean lightsOn = false;
-	//*/
-	
+	    	
 	private static SnrCore instance = null;
+	
 	
     public SnrCore(){
 		
@@ -87,25 +76,13 @@ public class SnrCore extends PhiCore{
     public void initSensors(){
         
 		SnrMotion.getInstance().setSnrIndex(SNR_MOTION);
+		SnrIrDistance.getInstance().setSnrIndex(SNR_IR_DISTANCE);
+		SnrLight.getInstance().setSnrIndex(SNR_LIGHT);
 		Snr300Rotator.getInstance().setSnrIndex(SNR_300_ROTATOR);
-		/*ObjHPFilter = new HighPassFilter();
 		
-		ObjHttp = new Http();
+		Context.getInstance().setContext(0,null);
 		
-		spanel = new LiveChart();
-		spanel.initParticle();
-		
-		JFrame frame = new JFrame();
-		frame.getContentPane().add(spanel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1024, 512);
-		frame.setVisible(true);
-		
-		System.out.println("init spanel");
-		
-		threshHoldMin = 300;
-		threshHoldMax = 800;
-		*/
+		//LiveChart.getInstance().initJPanel();
 		
 		// sensor change even lister
 		// from phidget API
@@ -124,46 +101,18 @@ public class SnrCore extends PhiCore{
                 int currentValue = ChangedSnr.getValue();
                 
                 if(currentIndex == SNR_MOTION){
-					SnrMotion.getInstance().trigger(currentValue);				
-                }
-                if(currentIndex == SNR_VIBRATION_1){
-					SnrVibration1.getInstance().trigger(currentValue);				
-                }
-                if(currentIndex == SNR_VIBRATION_2){
-					SnrVibration2.getInstance().trigger(currentValue);				
+					SnrMotion.getInstance().trigger(currentValue);
                 }
                 if(currentIndex == SNR_300_ROTATOR){
-					try {
-						Snr300Rotator.getInstance().trigger(currentValue);
-						//System.out.println(" = ");
-						//spanel.estimate((int) ObjHPFilter.getFilter(currentValue,0.80));
-						//spanel.estimate((int) ObjHPFilter.getFilter(currentValue,0.80));
-					} catch (PhidgetException ex) {
-						Logger.getLogger(SnrCore.class.getName()).log(Level.SEVERE, null, ex);
-					}
-
+					Snr300Rotator.getInstance().trigger(currentValue);
                 }
-                
 				if(currentIndex == SNR_LIGHT){
-					SnrLight.getInstance().trigger(currentValue);
-					
-					/* double newValue;
-					
-					if(currentValue > threshHoldMin && currentValue < threshHoldMax){	
-						//newValue = ((double)currentValue)/1024.0;
-					
-						//hpF = (double) ObjHPFilter.getFilter(newValue,0.5);
-						//System.out.println(hpF);
-
-						//spanel.estimate(currentValue);
-						//spanel.estimate(hpF);
-					}
-					*/
+					SnrLight.getInstance().trigger(currentValue);					
 				}
-
 				if(currentIndex == SNR_IR_DISTANCE){
 					SnrIrDistance.getInstance().trigger(currentValue);
-					
+				}
+				
 					/*double newValue;
 					newValue = currentValue;
 						
@@ -201,7 +150,7 @@ public class SnrCore extends PhiCore{
 					spanel.estimate(currentValue);
 					//spanel.estimate(hpF);
 					*/
-                }
+              
 								
             }
         

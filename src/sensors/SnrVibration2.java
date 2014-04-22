@@ -8,6 +8,7 @@ package sensors;
 
 import com.phidgets.PhidgetException;
 import core.SnrCore;
+import logics.Context;
 
 /**
  *
@@ -35,6 +36,12 @@ public class SnrVibration2 extends SnrCore implements InterfaceSnr{
 		//this.printValue();
 				
 	}
+
+	public void setContext(){
+	//	Context.getInstance().setContext(snrValue, instance);
+
+	}
+
 
 	/**
 	 *

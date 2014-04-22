@@ -20,5 +20,5 @@ public interface InterfaceSnr {
 
 	public void trigger(int value) throws PhidgetException;
 	
-
+	public void setContext();
 }

@@ -50,9 +50,9 @@ public class PhiCore {
 			System.out.println("Attaching sensors ...");
 			// at this point sensors are attached
 			// configure all sensor trigger change gap
-			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_IR_DISTANCE, 100);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_IR_DISTANCE, 10);
 			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_300_ROTATOR, 10);
-			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_LIGHT, 100);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_LIGHT, 10);
 			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_VIBRATION_1, 1);
 			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_VIBRATION_2, 50);
 			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_MOTION, 10);

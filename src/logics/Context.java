@@ -6,15 +6,19 @@
 
 package logics;
 
+import sensors.SnrIrDistance;
+import sensors.SnrLight;
+import sensors.SnrMotion;
+
 /**
  *
  * @author "as2d3f"
  */
 public class Context {
 	
-	private boolean userIn;
+	private boolean userInRoomStatus;
 	
-	private boolean userOnSeat;
+	private boolean userOnSeatStatus;
 	
 	private int lastTimeUserIn;
 	
@@ -24,22 +28,115 @@ public class Context {
 	
 	private int userOutSince;
 	
-	private boolean lightStatus;
+	private boolean isDayLight;
 
-	public boolean isUserIn() {
-		return userIn;
+	private static Context instance = null;
+	
+	
+	public Context(){
+		
+	}
+	
+	public static Context getInstance() {
+	  if(instance == null) {
+		 instance = new Context();
+	  }
+	  return instance;
 	}
 
-	public void setUserIn(boolean userIn) {
-		this.userIn = userIn;
+	public void setContext(int snrValue,Object remoteInstance){
+		
+		if(remoteInstance instanceof SnrIrDistance){
+			this.distanceSnrTriggered(snrValue);
+			//System.out.println("distance = " + SnrIrDistance.getInstance().getCurrentDistance() + " cm");
+		}
+		if(remoteInstance instanceof SnrMotion){
+			this.motionSnrTriggered(snrValue);
+			//System.out.println("In room = " + snrValue);
+		}
+		if(remoteInstance instanceof SnrLight){
+			this.lightSnrTriggered(snrValue);
+			//System.out.println("light on = " + snrValue);
+
+		}
+			
+
 	}
 
-	public boolean isUserOnSeat() {
-		return userOnSeat;
+	private void lightSnrTriggered(int snrValue) {
+
+		// if current state is true, means detected
+		if(SnrLight.getInstance().getDayLightStatus()){
+			this.isDayLight = true;
+		}
+		else{
+			this.isDayLight = false;
+		}
+		this.triggerLamp();
+		
 	}
 
-	public void setUserOnSeat(boolean userOnSeat) {
-		this.userOnSeat = userOnSeat;
+	private void motionSnrTriggered(int snrValue) {
+		
+		// if current state is true, means detected
+		if(SnrMotion.getInstance().getCurrentState()){
+			this.userInRoomStatus = true;
+		}
+		else{
+			this.userInRoomStatus = false;
+		}
+		this.triggerLaptop();
+			
+	}
+
+	private void distanceSnrTriggered(int snrValue) {
+		if(SnrIrDistance.getInstance().getCurrentDistance() > 0){
+			this.userOnSeatStatus = true;
+		} 
+		else {
+			this.userOnSeatStatus = false;
+		}
+		this.triggerLaptop();
+
+	}
+
+	public void triggerLamp(){
+		if(!this.isDayLight && this.userOnSeatStatus){
+			// turn it ON
+		}
+		else{
+			// turn it OFF
+			
+		}
+	}
+	
+	public void triggerLaptop(){
+		if(!this.userOnSeatStatus){
+			// loggoff laptop
+			// put skype away
+		}
+		else{
+			// login laptop
+			// skype available
+		}
+	}
+	
+	
+	
+	public boolean isUserInRoomStatus() {
+		return userInRoomStatus;
+	}
+
+	public void setUserInRoomStatus(boolean userInRoomStatus) {
+		this.userInRoomStatus = userInRoomStatus;
+	}
+
+	public boolean isUserOnSeatStatus() {
+		return userOnSeatStatus;
+	}
+
+	public void setUserOnSeatStatus(boolean userOnSeatStatus) {
+		this.userOnSeatStatus = userOnSeatStatus;
 	}
 
 	public int getLastTimeUserIn() {
@@ -74,13 +171,4 @@ public class Context {
 		this.userOutSince = userOutSince;
 	}
 
-	public boolean isLightStatus() {
-		return lightStatus;
-	}
-
-	public void setLightStatus(boolean lightStatus) {
-		this.lightStatus = lightStatus;
-	}
-	
-	
 }

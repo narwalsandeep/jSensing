@@ -11,23 +11,36 @@ import core.SnrCore;
 import com.phidgets.PhidgetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import lib.HighPassFilter;
+import lib.Http;
+import lib.LiveChart;
+import logics.Context;
 
 
 /**
  *
- * @author sandeepnarwal
+ * @author null
  */
 public class Snr300Rotator extends SnrCore implements InterfaceSnr{
     
 	private int snrIndex;
 	private int snrValue;
 	
+	
 	private static Snr300Rotator instance = null;
 
+	/**
+	 *
+	 */
 	public Snr300Rotator(){
 		
 	}
 	
+	/**
+	 *
+	 * @return
+	 */
 	public static Snr300Rotator getInstance() {
 	  if(instance == null) {
 		 instance = new Snr300Rotator();
@@ -39,24 +52,27 @@ public class Snr300Rotator extends SnrCore implements InterfaceSnr{
 	/**
 	 *
 	 * @param currentValue
-	 * @throws com.phidgets.PhidgetException
 	 */
 	@Override
-	public void trigger(int currentValue) throws PhidgetException{
+	public void trigger(int currentValue){
 		
 		setSnrValue(currentValue);
+		try {
+			//this.print(Integer.toString(getSnrValue()));
+			SnrIrDistance.getInstance().setSensitivity(getSnrValue());
+			SnrMotion.getInstance().setSensitivity(getSnrValue());
+			SnrLight.getInstance().setSensitivity(getSnrValue());
+			this.setContext();
+		} catch (PhidgetException ex) {
+			Logger.getLogger(Snr300Rotator.class.getName()).log(Level.SEVERE, null, ex);
+		}
 		
-		this.print(Integer.toString(getSnrValue()));
-		SnrMotion.getInstance().setSensitivity(getSnrValue());
-		
-		
-		//getObjSnrCore().getObjSnrMotion().setValue(getObjSnr300Rotator().getValue());
-		//SnrMotion.getInstance().printValue();
-		
-		//getObjSnrMotion().setValue(this.getValue());
-		//getObjSnrMotion().printValue();
 	}
 	
+	public void setContext(){
+		Context.getInstance().setContext(snrValue, instance);
+
+	}
 	/**
 	 *
 	 * @param value
@@ -68,18 +84,34 @@ public class Snr300Rotator extends SnrCore implements InterfaceSnr{
 		setSensorSensitivity(getSnrIndex(),getSnrValue());
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getSnrIndex() {
 		return snrIndex;
 	}
 
+	/**
+	 *
+	 * @param snrIndex
+	 */
 	public void setSnrIndex(int snrIndex) {
 		this.snrIndex = snrIndex;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getSnrValue() {
 		return snrValue;
 	}
 
+	/**
+	 *
+	 * @param snrValue
+	 */
 	public void setSnrValue(int snrValue) {
 		this.snrValue = snrValue;
 	}

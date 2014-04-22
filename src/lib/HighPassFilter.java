@@ -16,11 +16,20 @@ public class HighPassFilter {
 	
 	double xml, yml;
 
-	public HighPassFilter(){
-		
+	
+	private static HighPassFilter instance = null;
+	
+	
+    public HighPassFilter(){
 		yml = 0.0;
 		xml = 0.0;
 		
+	}
+	public static HighPassFilter getInstance() {
+	  if(instance == null) {
+		 instance = new HighPassFilter();
+	  }
+	  return instance;
 	}
 	
 	public double getFilter(double i, double r){

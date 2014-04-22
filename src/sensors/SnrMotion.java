@@ -8,6 +8,9 @@ package sensors;
 
 import com.phidgets.PhidgetException;
 import core.SnrCore;
+import lib.HighPassFilter;
+import lib.LiveChart;
+import logics.Context;
 
 /**
  *
@@ -19,6 +22,10 @@ public class SnrMotion extends SnrCore implements InterfaceSnr{
 
 	private int snrValue;
 	private int snrIndex;
+	private HighPassFilter ObjHPFilter;
+	private double hpF;
+	
+	private boolean currentState;
 	
 	public SnrMotion(){
 		
@@ -34,7 +41,18 @@ public class SnrMotion extends SnrCore implements InterfaceSnr{
 	public void trigger(int currentValue){
 		
 		setSnrValue(currentValue);
-		this.print(Integer.toString(getSnrValue()));
+	
+		//double newValue = ((double)SnrMotion.getInstance().getSnrValue())/1024.0;
+		//hpF = (double) HighPassFilter.getInstance().getFilter(newValue,0.8);
+		//LiveChart.getInstance().estimate(hpF);
+		
+		this.setState();
+		this.setContext();
+	
+	}
+	
+	public void setContext(){
+		Context.getInstance().setContext(snrValue, instance);
 
 	}
 
@@ -45,9 +63,9 @@ public class SnrMotion extends SnrCore implements InterfaceSnr{
 	 */
 	@Override
 	public void setSensitivity(int value) throws PhidgetException{
-		this.print(Integer.toString(getSnrValue()));
+		//this.print(Integer.toString(getSnrValue()));
 		setSensorSensitivity(this.getSnrIndex(),value);
-		this.print(Integer.toString(getSnrValue()));
+		//this.print(Integer.toString(getSnrValue()));
 
 	}
 
@@ -66,5 +84,22 @@ public class SnrMotion extends SnrCore implements InterfaceSnr{
 	public void setSnrValue(int snrValue) {
 		this.snrValue = snrValue;
 	}
+
+	public boolean getCurrentState() {
+		return currentState;
+	}
+
+	public void setCurrentState(boolean currentState) {
+		this.currentState = currentState;
+	}
 	
+	public void setState(){
+		
+		if(this.snrValue > 600 || this.snrValue < 400){
+			this.setCurrentState(true);
+		}
+		else{
+			this.setCurrentState(false);
+		}
+	}
 }
