@@ -50,7 +50,11 @@ public class SnrLight extends SnrCore implements InterfaceSnr{
 	}
 
 	public void setContext(){
-		Context.getInstance().setContext(snrValue, instance);
+		try {
+			Context.getInstance().setContext(snrValue, instance);
+		} catch (PhidgetException ex) {
+			Logger.getLogger(SnrLight.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
 	}
 
@@ -83,7 +87,7 @@ public class SnrLight extends SnrCore implements InterfaceSnr{
 	}
 
 	public void setDayLightStatus(){
-		if(this.snrValue < 20){
+		if(this.snrValue < 200){
 			this.dayLightStatus = false;
 		}
 		else{

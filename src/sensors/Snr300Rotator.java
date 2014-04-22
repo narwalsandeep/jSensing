@@ -70,7 +70,11 @@ public class Snr300Rotator extends SnrCore implements InterfaceSnr{
 	}
 	
 	public void setContext(){
-		Context.getInstance().setContext(snrValue, instance);
+		try {
+			Context.getInstance().setContext(snrValue, instance);
+		} catch (PhidgetException ex) {
+			Logger.getLogger(Snr300Rotator.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
 	}
 	/**

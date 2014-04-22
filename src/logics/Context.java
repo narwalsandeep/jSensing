@@ -6,6 +6,9 @@
 
 package logics;
 
+import com.phidgets.InterfaceKitPhidget;
+import com.phidgets.PhidgetException;
+import core.SnrCore;
 import sensors.SnrIrDistance;
 import sensors.SnrLight;
 import sensors.SnrMotion;
@@ -14,7 +17,7 @@ import sensors.SnrMotion;
  *
  * @author "as2d3f"
  */
-public class Context {
+public class Context extends SnrCore{
 	
 	private boolean userInRoomStatus;
 	
@@ -44,7 +47,7 @@ public class Context {
 	  return instance;
 	}
 
-	public void setContext(int snrValue,Object remoteInstance){
+	public void setContext(int snrValue,Object remoteInstance) throws PhidgetException{
 		
 		if(remoteInstance instanceof SnrIrDistance){
 			this.distanceSnrTriggered(snrValue);
@@ -54,10 +57,11 @@ public class Context {
 		}
 		if(remoteInstance instanceof SnrLight){
 			this.lightSnrTriggered(snrValue);
+			p(Integer.toString(snrValue));
 		}
 	}
 
-	private void lightSnrTriggered(int snrValue) {
+	private void lightSnrTriggered(int snrValue) throws PhidgetException {
 
 		// if current state is true, means detected
 		if(SnrLight.getInstance().getDayLightStatus()){
@@ -94,13 +98,15 @@ public class Context {
 
 	}
 
-	public void triggerLamp(){
+	public void triggerLamp() throws PhidgetException{
 		if(!this.isDayLight && this.userOnSeatStatus){
 			// turn it ON
 			p("turn lamp on");
+	       //InterfaceKitPhidget ObjPhiKit = new InterfaceKitPhidget();
+		   getObjPhiKit().setOutputState(0,true);
 		}
 		else{
-			// turn it OFF
+		   getObjPhiKit().setOutputState(0,false);
 			p("turn lamp off");
 		}
 	}
@@ -112,8 +118,6 @@ public class Context {
 		}
 		else{
 			p("login --- ");
-
-			// login laptop
 			// skype available
 		}
 	}

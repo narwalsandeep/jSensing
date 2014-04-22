@@ -8,6 +8,8 @@ package sensors;
 
 import com.phidgets.PhidgetException;
 import core.SnrCore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lib.HighPassFilter;
 import lib.LiveChart;
 import logics.Context;
@@ -52,7 +54,11 @@ public class SnrMotion extends SnrCore implements InterfaceSnr{
 	}
 	
 	public void setContext(){
-		Context.getInstance().setContext(snrValue, instance);
+		try {
+			Context.getInstance().setContext(snrValue, instance);
+		} catch (PhidgetException ex) {
+			Logger.getLogger(SnrMotion.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
 	}
 

@@ -73,13 +73,14 @@ public class SnrCore extends PhiCore{
     /**
      *  
      */
-    public void initSensors(){
+    public void initSensors() throws PhidgetException{
         
 		SnrMotion.getInstance().setSnrIndex(SNR_MOTION);
 		SnrIrDistance.getInstance().setSnrIndex(SNR_IR_DISTANCE);
 		SnrLight.getInstance().setSnrIndex(SNR_LIGHT);
 		Snr300Rotator.getInstance().setSnrIndex(SNR_300_ROTATOR);
-		
+	    ObjPhiKit.setOutputState(0,false);
+
 		Context.getInstance().setContext(0,null);
 		
 		//LiveChart.getInstance().initJPanel();

@@ -58,6 +58,8 @@ public class PhiCore {
 			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_MOTION, 10);
 			System.out.println("Done.");
 			System.out.println("________________________");
+
+			//ObjPhiKit.
 			
 			
         }
