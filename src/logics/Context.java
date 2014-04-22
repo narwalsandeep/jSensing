@@ -48,19 +48,13 @@ public class Context {
 		
 		if(remoteInstance instanceof SnrIrDistance){
 			this.distanceSnrTriggered(snrValue);
-			//System.out.println("distance = " + SnrIrDistance.getInstance().getCurrentDistance() + " cm");
 		}
 		if(remoteInstance instanceof SnrMotion){
 			this.motionSnrTriggered(snrValue);
-			//System.out.println("In room = " + snrValue);
 		}
 		if(remoteInstance instanceof SnrLight){
 			this.lightSnrTriggered(snrValue);
-			//System.out.println("light on = " + snrValue);
-
 		}
-			
-
 	}
 
 	private void lightSnrTriggered(int snrValue) {
@@ -103,19 +97,22 @@ public class Context {
 	public void triggerLamp(){
 		if(!this.isDayLight && this.userOnSeatStatus){
 			// turn it ON
+			p("turn lamp on");
 		}
 		else{
 			// turn it OFF
-			
+			p("turn lamp off");
 		}
 	}
 	
 	public void triggerLaptop(){
 		if(!this.userOnSeatStatus){
-			// loggoff laptop
+			p("logoff XXX ");
 			// put skype away
 		}
 		else{
+			p("login --- ");
+
 			// login laptop
 			// skype available
 		}
@@ -171,4 +168,7 @@ public class Context {
 		this.userOutSince = userOutSince;
 	}
 
+	private void p(String s){
+		System.out.println(s);
+	}
 }
