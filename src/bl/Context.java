@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package logics;
+package bl;
 
 import com.phidgets.InterfaceKitPhidget;
 import com.phidgets.PhidgetException;
@@ -15,13 +15,20 @@ import sensors.SnrMotion;
 
 /**
  *
- * @author "as2d3f"
+ * @author author
  */
 public class Context extends SnrCore{
+	
+	private static double GPS_LAT_STATIC = 1.1111;
+	private static double GPS_LONG_STATIC = 2.2222;
+	
+	private boolean isGuest = false;
 	
 	private boolean userInRoomStatus;
 	
 	private boolean userOnSeatStatus;
+	
+	private boolean userAwayStatus;
 	
 	private int lastTimeUserIn;
 	
@@ -32,9 +39,11 @@ public class Context extends SnrCore{
 	private int userOutSince;
 	
 	private boolean isDayLight;
+	
+	private double gpsLat;
+	private double gpsLong;
 
 	private static Context instance = null;
-	
 	
 	public Context(){
 		
@@ -57,7 +66,6 @@ public class Context extends SnrCore{
 		}
 		if(remoteInstance instanceof SnrLight){
 			this.lightSnrTriggered(snrValue);
-			p(Integer.toString(snrValue));
 		}
 	}
 
@@ -77,8 +85,10 @@ public class Context extends SnrCore{
 	private void motionSnrTriggered(int snrValue) {
 		
 		// if current state is true, means detected
-		if(SnrMotion.getInstance().getCurrentState()){
+		if(SnrMotion.getInstance().getCurrentState() == true){
 			this.userInRoomStatus = true;
+			this.p("GUEST or USER-IN-ROOM");
+
 		}
 		else{
 			this.userInRoomStatus = false;
@@ -90,6 +100,8 @@ public class Context extends SnrCore{
 	private void distanceSnrTriggered(int snrValue) {
 		if(SnrIrDistance.getInstance().getCurrentDistance() > 0){
 			this.userOnSeatStatus = true;
+			this.p("GUEST or USER-AT-DESK");
+
 		} 
 		else {
 			this.userOnSeatStatus = false;
@@ -100,24 +112,22 @@ public class Context extends SnrCore{
 
 	public void triggerLamp() throws PhidgetException{
 		if(!this.isDayLight && this.userOnSeatStatus){
-			// turn it ON
-			p("turn lamp on");
-	       //InterfaceKitPhidget ObjPhiKit = new InterfaceKitPhidget();
-		   getObjPhiKit().setOutputState(0,true);
+			p("turn LED on");
+			getObjPhiKit().setOutputState(0,true);
 		}
 		else{
-		   getObjPhiKit().setOutputState(0,false);
-			p("turn lamp off");
+			getObjPhiKit().setOutputState(0,false);
+			p("turn LED off");
 		}
 	}
 	
 	public void triggerLaptop(){
 		if(!this.userOnSeatStatus){
-			p("logoff XXX ");
+			//p("logoff 000 ");
 			// put skype away
 		}
 		else{
-			p("login --- ");
+			//p("login 111 ");
 			// skype available
 		}
 	}
@@ -174,5 +184,49 @@ public class Context extends SnrCore{
 
 	private void p(String s){
 		System.out.println(s);
+	}
+
+	public boolean isUserAwayStatus() {
+		return userAwayStatus;
+	}
+
+	public void setUserAwayStatus(boolean userAwayStatus) {
+		this.userAwayStatus = userAwayStatus;
+	}
+
+	public double getGpsLat() {
+		return gpsLat;
+	}
+
+	public void setGpsLat(double gpsLat) {
+		this.gpsLat = gpsLat;
+		
+	}
+
+	public double getGpsLong() {
+		return gpsLong;
+	}
+
+	public void setGpsLong(double gpsLong) {
+		this.gpsLong = gpsLong;
+	}
+
+	public void checkLatLongWithContext() {
+		
+		if(this.getGpsLat() == Context.GPS_LAT_STATIC  && this.getGpsLong() == Context.GPS_LONG_STATIC){
+
+			this.isGuest = false;
+			
+			if(this.userInRoomStatus == true && this.userOnSeatStatus == true){	
+				this.p("USER-AT-DESK");
+			}
+		}
+		else{
+			if(this.userInRoomStatus == true && this.userOnSeatStatus == true){
+				this.isGuest = true;
+				this.p("GUEST-AT-DESK");
+			}
+		}
+		
 	}
 }

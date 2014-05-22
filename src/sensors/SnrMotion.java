@@ -12,11 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lib.HighPassFilter;
 import lib.LiveChart;
-import logics.Context;
+import bl.Context;
+import java.io.IOException;
+import lib.Writer;
 
 /**
  *
- * @author null
+ * @author author
  */
 public class SnrMotion extends SnrCore implements InterfaceSnr{
 	
@@ -42,11 +44,11 @@ public class SnrMotion extends SnrCore implements InterfaceSnr{
 	@Override
 	public void trigger(int currentValue){
 		
-		setSnrValue(currentValue);
-	
-		//double newValue = ((double)SnrMotion.getInstance().getSnrValue())/1024.0;
-		//hpF = (double) HighPassFilter.getInstance().getFilter(newValue,0.8);
-		//LiveChart.getInstance().estimate(hpF);
+		double newV = LiveChart.getInstance().estimate(currentValue);
+		
+		// set new snr value from particle filter
+		this.setSnrValue((int)newV);
+		
 		
 		this.setState();
 		this.setContext();

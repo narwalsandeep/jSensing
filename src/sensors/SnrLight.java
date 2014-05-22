@@ -12,11 +12,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lib.HighPassFilter;
-import logics.Context;
+import bl.Context;
+import lib.LiveChart;
 
 /**
  *
- * @author null
+ * @author author
  */
 public class SnrLight extends SnrCore implements InterfaceSnr{
 	
@@ -42,7 +43,9 @@ public class SnrLight extends SnrCore implements InterfaceSnr{
 	@Override
 	public void trigger(int currentValue){
 		
-		setSnrValue(currentValue);
+		double newV = LiveChart.getInstance().estimate(currentValue);
+		// set new snr value from particle filter
+		this.setSnrValue((int)newV);
 		this.setDayLightStatus();
 		
 		this.setContext();

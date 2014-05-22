@@ -13,10 +13,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lib.HighPassFilter;
 import lib.LiveChart;
-import logics.Context;
+import bl.Context;
+import lib.Writer;
 /**
  *
- * @author sandeepnarwal
+ * @author author
  */
 public class SnrIrDistance extends SnrCore implements InterfaceSnr{
 
@@ -44,12 +45,12 @@ public class SnrIrDistance extends SnrCore implements InterfaceSnr{
     @Override
 	public void trigger(int currentValue){
 		
-		this.setSnrValue(currentValue);
+		//this.setSnrValue(currentValue);
+		double newV = LiveChart.getInstance().estimate(currentValue);
 		
-		//double newValue = ((double)SnrIrDistance.getInstance().getSnrValue())/1024.0;
-		//hpF = (double) HighPassFilter.getInstance().getFilter(newValue,0.8);
-		//LiveChart.getInstance().estimate(hpF);
-			
+		// set new snr value from particle filter
+		this.setSnrValue((int)newV);
+		
 		this.calculateDistance();
 		this.setContext();
 
@@ -106,6 +107,7 @@ public class SnrIrDistance extends SnrCore implements InterfaceSnr{
 		if(this.snrValue > 80 && this.snrValue < 530){
 			double distance  = 2076 / (this.snrValue - 11 );
 			this.setCurrentDistance(distance);
+			//this.print("Distance at: " + String.valueOf(distance) + "cm.");
 		}
 		else{
 			this.setCurrentDistance(0);

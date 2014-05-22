@@ -9,7 +9,7 @@ package core;
 
 /**
  *
- * @author sandeepnarwal
+ * @author author
  */
 public class Init {
 

@@ -42,13 +42,10 @@ public class ParticleFilter {
 
     public double estimate() {
         double sum;
-
         sum = 0;
         for (int i = 0; i < particleCount; i++) {
             sum += particles[0][i] * particles[1][i];
-//            System.out.print(particles[1][i] + ",");
         }
-//        System.out.println();
         return sum;
     }
 

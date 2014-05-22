@@ -13,7 +13,7 @@ import java.net.URL;
 
 /**
  *
- * @author sandeepnarwal
+ * @author author
  */
 public class Http {
 	
@@ -28,6 +28,11 @@ public class Http {
 			if (http_status / 100 != 2) {
 				//something strange happened
 			}
+			else{
+				
+				//Object content = conn.getContent();
+				//System.out.println(content.toString());
+			}
 		} catch (IOException e) {
 			System.out.println(" http error" );
 
@@ -37,4 +42,5 @@ public class Http {
 	}
 	
 
+	
 }

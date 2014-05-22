@@ -11,16 +11,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import sensors.SnrIrDistance;
 
 /**
  *
- * @author sandeepnarwal
+ * @author author
  */
 public class LiveChart extends JPanel {
 	
@@ -79,7 +81,7 @@ public class LiveChart extends JPanel {
 		
 	}
 
-	public void estimate(double currentValue){
+	public double estimate(double currentValue){
 		
 		sensorXNoise = (double)currentValue + (rnd.nextGaussian() * 100);
 		pf.update((double) sensorXNoise);
@@ -88,9 +90,13 @@ public class LiveChart extends JPanel {
 		sensorNoiseVals.remove(0);
 		sensorNoiseVals.add(sensorXNoise);
 		filterVals.remove(0);
-		filterVals.add(pf.estimate());
+		double pfValue = pf.estimate();
+		filterVals.add(pfValue);
 		repaint();
+
 		
+		return pfValue;
+		//return 
 	}
 
 	@Override
@@ -109,26 +115,29 @@ public class LiveChart extends JPanel {
 
         g2d.setRenderingHints(rh);
 
-        //g2d.fillOval((int) (Math.round(mouseXNoise) - 25), mouseY - 25, 50, 50);   
-        
         double xpos =0;
         double xinc = 1;
         double yscale = 0.5;
         for(int i=1; i < sensorVals.size(); i++) {
-            g2d.setColor(new Color(0, 0, 150));
+            ///*
+			g2d.setColor(new Color(0, 120, 150));
             int nyval1 = (int)(yscale * sensorVals.get(i-1));
             int nyval2 = (int)(yscale * sensorVals.get(i));
-            g2d.drawLine((int)xpos, nyval1, (int)(xpos+xinc), nyval2);
-            g2d.setColor(new Color(150, 0, 0));
+			g2d.drawLine((int)xpos, nyval1, (int)(xpos+xinc), nyval2);
+            
+			g2d.setColor(new Color(150, 0, 0));
             int yval1 = (int)(yscale * sensorNoiseVals.get(i-1));
             int yval2 = (int)(yscale * sensorNoiseVals.get(i));
-            //g2d.drawLine((int)xpos, yval1, (int)(xpos+xinc), yval2);
-            //g2d.drawOval((int)(xpos+xinc), yval2, 7, 7);
-            g2d.setColor(new Color(0, 150, 0));
+			//g2d.drawLine((int)xpos, yval1, (int)(xpos+xinc), yval2);
+            
+			//g2d.drawOval((int)(xpos+xinc), yval2, 7, 7);
+
+			g2d.setColor(new Color(150, 150, 0));
             int fyval1 = (int)(yscale * filterVals.get(i-1));
             int fyval2 = (int)(yscale * filterVals.get(i));
-            //g2d.drawLine((int)xpos, fyval1, (int)(xpos+xinc), fyval2);
-            xpos += xinc;
+            g2d.drawLine((int)xpos, fyval1, (int)(xpos+xinc), fyval2);
+          		
+			xpos += xinc;
         }
     }    
 

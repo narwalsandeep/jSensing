@@ -10,7 +10,7 @@ package lib;
 
 /**
  *
- * @author sandeepnarwal
+ * @author author
  */
 public class HighPassFilter {
 	

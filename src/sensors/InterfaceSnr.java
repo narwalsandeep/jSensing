@@ -11,7 +11,7 @@ import core.SnrCore;
 
 /**
  *
- * @author sandeepnarwal
+ * @author author
  */
 public interface InterfaceSnr {
 	

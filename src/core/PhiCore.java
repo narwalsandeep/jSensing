@@ -11,7 +11,7 @@ import com.phidgets.*;
 
 /**
  *
- * @author sandeepnarwal
+ * @author author
  */
 public class PhiCore {
     
@@ -50,12 +50,12 @@ public class PhiCore {
 			System.out.println("Attaching sensors ...");
 			// at this point sensors are attached
 			// configure all sensor trigger change gap
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_IR_DISTANCE, 10);
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_300_ROTATOR, 10);
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_LIGHT, 10);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_IR_DISTANCE, 20);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_300_ROTATOR, 1);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_LIGHT, 1);
 			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_VIBRATION_1, 1);
 			//ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_VIBRATION_2, 50);
-			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_MOTION, 10);
+			ObjPhiKit.setSensorChangeTrigger(SnrCore.SNR_MOTION, 0);
 			System.out.println("Done.");
 			System.out.println("________________________");
 
